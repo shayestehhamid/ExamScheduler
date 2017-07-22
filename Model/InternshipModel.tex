@@ -1,0 +1,75 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage[round]{natbib}
+%\usepackage[backend=biber]{biblatex}
+%\addbibresource{bib.bib} % with extension
+
+
+\begin{document}
+
+\author{Hamid Shayestehmanesh}
+\title{Exam Scheduler Model}
+\maketitle
+%\tableofcontents
+\newpage
+
+\section{Ready Tables}
+\begin{itemize}
+\item
+{\textbf{Conf \big[ C \big]\big[ C \big]  \space =} \begin{tabular}{| c | c |} \hline
+number of common students between class $i, j$ & if $i \neq j$ \\ \hline
+0 & if $i = j$ \\ \hline
+\end{tabular}}
+\end{itemize}
+
+\section{Variable Tables}
+
+\begin{itemize}
+\item
+{\textbf{SD \big[ C \big]\big[ C \big]  \space =}
+\begin{tabular}{| c | c |} \hline
+1 & being in same day for $i \neq j$ \\ \hline
+0 & not being in same day \\ \hline
+\end{tabular}}
+
+\item{
+\textbf{FS \big[ C \big]\big[ C \big]  \space =}
+\begin{tabular}{| c | c |} \hline
+1 & being in contingents days for $i \neq j$ \\ \hline
+0 & not being in contingents day \\ \hline
+\end{tabular}}
+
+\item{
+\textbf{CT \big[ C \big]\big[ T \big]  \space =}
+\begin{tabular}{| c | c |} \hline
+1 & if Course $c_1$ is decided to be in time $t1$  \\ \hline
+0 & if Course $c_1$ is decided not to be in time $t1$ \\ \hline
+\end{tabular}}
+
+
+\end{itemize}
+
+\section{Model}
+\subsection{Objective}
+
+\textbf{ \textit{Min:} } $\Sigma_{c_1}^{C} \Sigma_{c_2}^{C} SD[c_1][c_2] \times BIGM9 \times conf[c_1][c_2] + \Sigma_{c_1}^{C} \Sigma_{c_2}^{C} FD[c_1][c_2] \times BIGM6 \times conf[c_1][c_2]  $  \newline 
+
+\subsection{Constraints}
+
+\begin{itemize}
+\item{$\forall C$ \space $\Sigma_t^T CT_{ct} = 1$}
+
+\item{$\forall c_1 , c_2 , T $ \space if $c_1$, $c_2$ has conflicts $CT_{c_1 t} + CT_{c_2 t} \le 1$ }
+
+\item{$\forall c_1 , c_2 , t_1 , t_2$ \space if $c_1$, $c_2$ has conflicts and $t_1, t_2$ are contingents times $$CT_{c_1 t_1} + CT_{c_2 t_2} \le 1$$ $$CT_{c_2 t_1} + CT_{c_1 t_2} \le 1 $$ }
+
+\item{$\forall c_1 , c_2 , t_1, t_2 $ \space if $c_1$, $c_2$ has conflicts and $t_1 ,t_2 $ are in same day $$CT_{c_1 t_1} + CT_{c_2 t_2} \le 1 + SD[c_1][c_2]$$ 
+$$CT_{c_1 t_2} + CT_{c_2 t_1} \le 1 + SD[c_1][c_2]$$}
+
+
+\item{$\forall c_1 ,  c_2 ,  t_1 , t_2$ \space if $c_1$, $c_2$ has conflicts and $t_1 , t_2$ are contingents days $$CT_{c_1 t_1} + CT_{c_2 t_2} \le 1 + FD[c_1][c_2]$$ $$CT_{c_2 t_1} + CT_{c_1 t_2} \le 1 + FD[c_1][c_2]$$  }
+
+\end{itemize}
+
+
+\end{document}

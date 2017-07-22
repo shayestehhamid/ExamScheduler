@@ -1,6 +1,6 @@
 import xlrd
 
-n_o_times = 36
+n_o_times = 40
 n_o_places = 100
 
 class Course:
@@ -63,7 +63,7 @@ class Data:
 				if i in c2.courseStudents:
 					res += 1
 			return res   
-		res = [[ hasConflict(c,course) for c in self.courses ] for course in self.courses]
+		res = [[hasConflict(c,course) for c in self.courses ] for course in self.courses]
 		return res
 
 	def calculateTR45(self, cost):

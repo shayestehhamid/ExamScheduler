@@ -13,7 +13,7 @@ removed_course = -1
 problem = LpProblem('Project', LpMinimize)
 
 n_o_places = 100
-n_o_time = 36
+n_o_time = 40
 
 
 import time
@@ -22,9 +22,9 @@ start_time = time.time()
 ########################
 
 
-
 # TV2
 # course * course
+# variables to allowed to courses be in same day
 var_in_day_binary = [[] for _ in xrange(data.coursesNum)]
 for i in xrange(data.coursesNum):
 	for j in xrange(data.coursesNum):
@@ -35,7 +35,7 @@ for i in xrange(data.coursesNum):
 # TV3
 # course * course
 
-
+# variables to allowed to courses be in continues days.
 var_continues = [[] for i in xrange(data.coursesNum)]
 for i in xrange(data.coursesNum):
 	for j in xrange(data.coursesNum):
@@ -44,8 +44,9 @@ for i in xrange(data.coursesNum):
 		var_continues[i].append(var)
 
 
+# if a course is taken in a time 1, rest if 0
 # TV4
-#course * time * places
+#course * time
 var_cr_time = [[] for _ in xrange(data.coursesNum)]
 for i in xrange(data.coursesNum):
 		for k in xrange(n_o_time):
@@ -54,9 +55,9 @@ for i in xrange(data.coursesNum):
 			var_cr_time[i].append(var)
 ###########################
 
-# const 2
+# const 1
 # check for intersections!
-
+# if two courses has confilct (any reason) 
 for c1 in xrange(data.coursesNum):
 	for c2 in xrange(data.coursesNum):
 		if data.conflicts[c1][c2]:
@@ -69,8 +70,7 @@ for c1 in xrange(data.coursesNum):
 				const.append(var_cr_time[c2][time])
 				problem += lpSum(const) <= 1
 
-#another new const
-#
+
 
 times_serial_day = []
 for time1 in xrange(n_o_time):
@@ -79,8 +79,8 @@ for time1 in xrange(n_o_time):
 			times_serial_day.append((time1, time2))
 
 
-# being in two neighbor days!
 
+# being in two neighbor days!
 for c1 in xrange(data.coursesNum):
 	for c2 in xrange(data.coursesNum):
 		if data.conflicts[c1][c2] :			
@@ -89,19 +89,19 @@ for c1 in xrange(data.coursesNum):
 			
 				const.append(var_cr_time[c1][t1])
 				const.append(var_cr_time[c2][t2])
-				problem += lpSum(const) <= 1 + var_continues[c1][c2]
+				problem += lpSum(const) <= (1 + var_continues[c1][c2])
 
 
 
 # const 3
-# constrains for AA table, being after each other!
+# times for next
 times_serial = []
 for time1 in xrange(n_o_time):
 	for time2 in xrange(n_o_time):
 		if time1/4 == time2/4 and abs(time1 - time2) == 1:
 			times_serial.append((time1, time2))
 
-
+# constrains for AA table, being after each other!
 for c1 in xrange(data.coursesNum):
 	for c2 in xrange(data.coursesNum):
 		if data.conflicts[c1][c2]:			
@@ -113,13 +113,14 @@ for c1 in xrange(data.coursesNum):
 				problem += lpSum(const) <= 1 
 
 # const 4
-# constrains for AD table, being in one day
+# times for next
 times_day = []
 for time1 in xrange(n_o_time):
 	for time2 in xrange(n_o_time):
 		if time1/4 == time2/4 and abs(time1 - time2) > 1:
 			times_day.append((time1, time2))
 
+# constrains for AD table, being in one day
 for c1 in xrange(data.coursesNum):
 	for c2 in xrange(data.coursesNum):
 		if data.conflicts[c1][c2]:			
@@ -128,7 +129,7 @@ for c1 in xrange(data.coursesNum):
 				
 				const.append(var_cr_time[c1][t1])
 				const.append(var_cr_time[c2][t2])
-				problem += lpSum(const) <= 1 + var_in_day_binary[c1][c2]
+				problem += lpSum(const) <= (1 + var_in_day_binary[c1][c2])
 
 # no two course of same semester are in same day!
 # for c1 in xrange(data.coursesNum):
@@ -153,11 +154,11 @@ for c1 in xrange(data.coursesNum):
 				continue
 			if data.profConflict(c1, c2):
 				for time in xrange(n_o_time):
-					problem += var_cr_time[c1][time] + var_cr_time[c2][time] <= 1
-
+					problem += (var_cr_time[c1][time] + var_cr_time[c2][time]) <= 1
 
 # const 5
-# sigma on time, sigma on places, for a specific course = 1, get sure time and room has been assigned
+# time is surely assigned for course
+
 for course in xrange(data.coursesNum):
 	const = []
 	for time in xrange(n_o_time):	
@@ -167,41 +168,29 @@ for course in xrange(data.coursesNum):
 
 
 
-
-# const 6
-# get sure the place is free in the time
-# not exists for now!!!
-# love our department!
-
-#get sure there is a place assign!
-# get sure they do not have intersection one place, need an permission variable,.
-
-# const 7
-# in a place, a time, only one exam is held ( or less )
-
-
-# solve this by permission!
-
-#
-# const = []
-# for c1 in xrange(data.coursesNum):
-# 	for c2 in xrange(data.coursesNum):
-# 		if c1 < c2:
-# 			const.append(var_in_day_binary[c1][c2]*data.conflicts[c1][c2])
-# problem += lpSum(const) < 50
+print "objectivE!"
 
 ############################
 #objective!
+lst = []
+lst2 = []
 for course1 in xrange(data.coursesNum):
 	for course2 in xrange(data.coursesNum):
 		if course1 < course2:
-			problem += var_in_day_binary[course1][course2]*data.TR4[course1][course2]
-			problem += var_continues[course1][course2]*data.TR5[course1][course2]
-			
+			lst.append(var_in_day_binary[course1][course2]*data.TR4[course1][course2])			
+ 			lst2.append(var_continues[course1][course2]*data.TR5[course1][course2])
+
+problem += lpSum(lst)
+# print "l;ksdfa"
+# print problem.objective
+
+
+
 # zarb in_day ba element moshabeh
 # zarb continues ba element moshabeh
 # vase inke bere akhara hamash!
 # for course in xrange(data.coursesNum):
+
 # 	for time in xrange(n_o_time):
 # 			problem += var_cr_time[course][time]*data.TR2[course][time]
 # zarb coursetime, dar hanizeie time
@@ -210,7 +199,7 @@ for course1 in xrange(data.coursesNum):
 
 
 print "problem created!"
-status = problem.solve()
+status = problem.solve()	
 print LpStatus[status]
 print "problem solved!"
 
@@ -231,8 +220,8 @@ for course in xrange(data.coursesNum):
 			worksheet.write(row, 1, data.getTime(time)[0])
 			worksheet.write(row, 2, data.getTime(time)[1])
 			
-			# worksheet.write(row, 4, str(data.charts[0].courseTerm(course)))
-			# worksheet.write(row, 5, str(data.charts[1].courseTerm(course)))
+			worksheet.write(row, 4, str(data.charts[0].courseTerm(course)))
+			worksheet.write(row, 5, str(data.charts[1].courseTerm(course)))
 			result.append((course, time))
 			row += 1
 
@@ -248,6 +237,7 @@ for index1 in xrange(len(result)):
 		if index1 < index2:
 			c1, t1 = result[index1]
 			c2, t2 = result[index2]
+
 			if t1/4 == t2/4 and abs(t1-t2)==1:
 				n_serial_conf += data.conflicts[c1][c2]
 				

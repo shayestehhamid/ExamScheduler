@@ -25,6 +25,7 @@ start_time = time.time()
 
 # TV2
 # course * course
+# variables to show that are two courses allowed to be in same day or not.
 var_in_day_binary = [[] for _ in xrange(data.coursesNum)]
 for i in xrange(data.coursesNum):
 	for j in xrange(data.coursesNum):
@@ -35,7 +36,7 @@ for i in xrange(data.coursesNum):
 # TV3
 # course * course
 
-
+# variables to sshow that are two courses allowed to be in continues times.
 var_continues = [[] for i in xrange(data.coursesNum)]
 for i in xrange(data.coursesNum):
 	for j in xrange(data.coursesNum):
