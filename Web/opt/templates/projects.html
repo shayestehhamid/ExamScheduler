@@ -1,0 +1,130 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html class="gr__v4-alpha_getbootstrap_com" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+    <script src="{% static 'tether.js' %}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    
+    function addFunction(){
+      factor = document.getElementById("factor");
+      factor.innerHTML += "{{new_product}} <br>";
+
+    }
+
+  </script>
+
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'dashboard.css' %}" rel="stylesheet">
+  </head>
+
+  <body data-gr-c-s-loaded="true">
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <!-- <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+      <a class="navbar-brand" href="#">Dashboard</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 80px">
+      <div class="row">
+      
+        <nav class="col-md-2 hidden-xs-down bg-faded sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="/teachers"><h2>اساتید/جدید</h2></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/projects"><h2>پروژه ها/جدید</h2></a>
+            </li>
+            
+          </ul>
+          <hr>
+<!--           <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="#">راننده ی جدید</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">بارنامه ی جدید</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">حساب جدید</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">شخص جدید</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">فاکتور جدید</a>
+            </li>
+            
+          </ul> -->
+ 
+        </nav>
+        
+        <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
+        <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
+          <h2>لیست پروژه ها</h2>
+          <div class="container-fluid" style="float: center">          
+          </div>
+        </main>
+        <!-- add a vertical line here! -->
+        <div class="col-md-4 col-sm-4">
+        <h3>ساخت پروژه ی جدید</h3>
+          
+          <!-- ye form bezaram ke ba plus behesh ezafe beshe baad dg hala 
+          biam doone doone beferstam ke factor sabr beshe -->
+          
+          <div class="form-group">
+          <form action="/accounts/" method="POST" autocomplete="off" id="factor">
+            {% csrf_token %}
+            
+            <input type="submit" value="create" />
+        </form>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'jquery-3.js' %}" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="{% static "jquery.min.js" %}"><\/script>')</script>
+    
+    <script src="{% static 'bootstrap.js' %}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+  
+
+</body></html>

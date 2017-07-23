@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from optimizer import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^projects/', views.projects),
+    url(r'^removeproject/([\w{}]{1,40})/', views.project_remove),
+    url(r'^teachers/', views.teachers),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
