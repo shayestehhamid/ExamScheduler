@@ -8,19 +8,23 @@ class Student(models.Model):
 class Teacher(models.Model):
 	name = models.CharField(max_length=60)
 
-class Time(models.Model):
-	d = models.IntegerField(default=1)
-	m = models.IntegerField(default=1)
-	y = models.IntegerField(default=2017)
-	h = models.IntegerField(default=8)
-	weekday = models.CharField(max_length=20)
 
 class Course(models.Model):
 	name = models.CharField(max_length=40)
 	students = models.ManyToManyField(Student)
-	time = models.ForeignKey(Time)
+	time = models.ForeignKey('Time')
 	teacher = models.ForeignKey(Teacher)
 
+
 class Project(models.Model):
+	name = models.CharField(max_length=50)
 	courses = models.ManyToManyField(Course)
 
+
+class Time(models.Model):
+	d = models.IntegerField(default=1)
+	m = models.CharField(max_length=10)
+	# y = models.IntegerField(default=1396)
+	h = models.IntegerField(default=8)
+	weekday = models.CharField(max_length=20)
+	project = models.ForeignKey(Project)

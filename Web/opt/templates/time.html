@@ -85,30 +85,58 @@
         
         <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
-          <h2>لیست پروژه ها</h2>
+          <h2>لیست ساعت ها</h2>
           <div class="container-fluid" style="float: center">      
-          {% for x in projects%}
-            <a href="/project/{{x.id}}">{{x.name}}</a>
-            <a href="/project/time/{{x.id}}">times</a>
-            <a href="/project/course/{{x.id}}">courses</a>
-             <br>
-          {% endfor %}    
+         
           </div>
         </main>
         <!-- add a vertical line here! -->
         <div class="col-md-4 col-sm-4">
-        <h3>ساخت پروژه ی جدید</h3>
+        <h3>تعریف ساعت جدید</h3>
           
           <!-- ye form bezaram ke ba plus behesh ezafe beshe baad dg hala 
           biam doone doone beferstam ke factor sabr beshe -->
           
           <div class="form-group">
-          <form action="/projects/" method="POST" autocomplete="off" id="factor">
+          <form action="" method="POST" autocomplete="off" id="factor" class="form-inline form-horizontal" style="margin-left: 5px;">
             {% csrf_token %}
-
-            {{newproject}}
-            
-            <input type="submit" value="ساخت پروژه" />
+             <select name="days">
+              {% for i in days%}
+              <option value="{{i}}">{{i}}</option>
+              {% endfor %}
+            </select> 
+            <select name="months" multiple>
+            <option value="1">فروردین</option>
+              <option value="2">اردیبهشت</option>
+              <option value="3">خزداد</option>
+              <option value="4">تیر</option>
+              <option value="5">مرداد</option>
+              <option value="6">شهریور</option>
+              <option value="7">مهر</option>
+              <option value="8">الان</option>
+              <option value="9">اذر</option>
+              <option value="10">دی</option>
+              <option value="11">بهمن</option>
+              <option value="12">اسفند</option>
+            </select>
+            <select name="hour" multiple>
+              <option value="8">8</option>
+              <option value="11">11</option>
+              <option value="14">14</option>
+              <option value="17">17</option>
+            </select>
+            <select name="weekday" multiple>
+              <option value="شنبه">شنبه</option>
+              <option value="یک شنبه">یک شنبه</option>
+              <option value="دو شنبه">دو شنبه</option>
+              <option value="سه شنبه">سه شنبه</option>
+              <option value="چهار شنبه">چهار شنبه</option>
+              <option value="پنج شنبه">پنج شنبه</option>
+              <option value="جمعه">جمعه</option>
+              
+            </select>
+            <input type="submit" value="ساعت جدید" style="margin-top: 10px;">
+              
         </form>
                   <!--  <div id="myDIV" class="header">
             <h2>My To Do List</h2>

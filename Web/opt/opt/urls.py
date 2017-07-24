@@ -24,4 +24,7 @@ urlpatterns = [
     url(r'^projects/', views.projects),
     url(r'^removeproject/([\w{}]{1,40})/', views.project_remove),
     url(r'^teachers/', views.teachers),
+    url(r'^removeteacher/([\w{}]{1,40})/', views.teacher_remove),
+    url(r'^project/time/([\w{}]{1,40})/', views.times),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -87,10 +87,8 @@
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست پروژه ها</h2>
           <div class="container-fluid" style="float: center">      
-          {% for x in projects%}
-            <a href="/project/{{x.id}}">{{x.name}}</a>
-            <a href="/project/time/{{x.id}}">times</a>
-            <a href="/project/course/{{x.id}}">courses</a>
+          {% for x in teachers%}
+            <a href="/removeteacher/{{x.id}}">{{x.name}}</a>
              <br>
           {% endfor %}    
           </div>
@@ -103,7 +101,7 @@
           biam doone doone beferstam ke factor sabr beshe -->
           
           <div class="form-group">
-          <form action="/projects/" method="POST" autocomplete="off" id="factor">
+          <form action="/teachers/" method="POST" autocomplete="off" id="factor">
             {% csrf_token %}
 
             {{newproject}}
