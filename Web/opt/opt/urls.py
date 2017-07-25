@@ -26,5 +26,9 @@ urlpatterns = [
     url(r'^teachers/', views.teachers),
     url(r'^removeteacher/([\w{}]{1,40})/', views.teacher_remove),
     url(r'^project/time/([\w{}]{1,40})/', views.times),
+    url(r'^removetime/([\w{}]{1,40})/([\w{}]{1,40})/', views.time_remove),
+    url(r'^project/course/([\w{}]{1,40})/', views.courses),
+    url(r'^project/const/([\w{}]{1,40})/', views.constraint),
+    url(r'^project/upload/([\w{}]{1,40})/', views.upload_courses),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

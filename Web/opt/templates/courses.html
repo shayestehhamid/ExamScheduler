@@ -85,50 +85,18 @@
         
         <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
-          <h2>لیست پروژه ها</h2>
+          <h2>لیست درس ها</h2>
           <div class="container-fluid" style="float: center">      
-          {% for x in projects%}
-            <a href="/project/{{x.id}}">{{x.name}}</a>
-            <a href="/project/time/{{x.id}}">times</a>
-            <a href="/project/course/{{x.id}}">courses</a>
-            <a href="/project/upload/{{x.id}}">getcourses</a>
-            <a href="/project/const/{{x.id}}">constraints</a>
-            <a href="/removeproject/{{x.id}}">delete</a>
-             <br>
-          {% endfor %}    
+            {% for course in courses%}
+              <a href="/course/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}}</a> 
+              <a href="/removecourse/{{course.id}}/{{prid}}/" title="delete">delete</a>
+              <br>
+
+            {% endfor %}
           </div>
         </main>
         <!-- add a vertical line here! -->
-        <div class="col-md-4 col-sm-4">
-        <h3>ساخت پروژه ی جدید</h3>
-          
-          <!-- ye form bezaram ke ba plus behesh ezafe beshe baad dg hala 
-          biam doone doone beferstam ke factor sabr beshe -->
-          
-          <div class="form-group">
-          <form action="/projects/" method="POST" autocomplete="off" id="factor">
-            {% csrf_token %}
 
-            {{newproject}}
-            
-            <input type="submit" value="ساخت پروژه" />
-        </form>
-                  <!--  <div id="myDIV" class="header">
-            <h2>My To Do List</h2>
-            <input type="text" id="myInput" placeholder="Title...">
-            <span onclick="newElement()" class="addBtn">Add</span>
-          </div>
-
-          <ul id="myUL">
-            <li>Hit the gym</li>
-
-            <li>Meet George</li>
-            <li>Buy eggs</li>
-            <li>Read a book</li>
-            <li>Organize office</li>
-          </ul>  -->
-        </div>
-      </div>
     </div>
 
     <!-- Bootstrap core JavaScript

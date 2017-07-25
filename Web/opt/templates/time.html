@@ -87,7 +87,11 @@
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست ساعت ها</h2>
           <div class="container-fluid" style="float: center">      
-         
+            {% for time in times%}
+              {{time.d}} {{time.month}} {{time.h}} {{time.weekday}} <a href="/removetime/{{time.id}}/{{prid}}/" title="delete">delete</a>
+              <br>
+
+            {% endfor %}
           </div>
         </main>
         <!-- add a vertical line here! -->
@@ -121,7 +125,7 @@
             </select>
             <select name="hour" multiple>
               <option value="8">8</option>
-              <option value="11">11</option>
+              <option value="11">11</option> 
               <option value="14">14</option>
               <option value="17">17</option>
             </select>
