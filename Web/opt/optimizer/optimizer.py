@@ -1,8 +1,7 @@
 from pulp import *
-import data
+import data as Data
 import matplotlib.pyplot as plt
 
-data = data.Data("Book1.xlsx")
 
 removed_course = -1
 
@@ -10,75 +9,80 @@ removed_course = -1
 # 	data.conflicts[c1][removed_course] = 0
 # 	data.conflicts[removed_course][c1] = 0
 
-problem = LpProblem('Project', LpMinimize)
-
-n_o_time = 40
-
-
 import time
+
+
 
 start_time = time.time()
 ########################
+def optimize(projectid):
+
+	problem = LpProblem('Project', LpMinimize)
+	courses = Data.courses(projectid)
+	dict_courses = {}
+	for i in xrange(Data.courses_num(projectid)):
+		dict_courses[i] = courses[i].id
 
 
-# TV2
-# course * course
-# variables to allowed to courses be in same day
-var_in_day_binary = [[] for _ in xrange(data.coursesNum)]
-for i in xrange(data.coursesNum):
-	for j in xrange(data.coursesNum):
-		name = ",".join(["TV2cc", str(i), str(j)])
-		var = LpVariable(name, 0, 1, LpInteger)
-		var_in_day_binary[i].append(var)
-
-# TV3
-# course * course
-
-# variables to allowed to courses be in continues days.
-var_continues = [[] for i in xrange(data.coursesNum)]
-for i in xrange(data.coursesNum):
-	for j in xrange(data.coursesNum):
-		name = ",".join(["TV3cc", str(i), str(j)])
-		var = LpVariable(name, 0, 1, LpInteger)
-		var_continues[i].append(var)
-
-
-# if a course is taken in a time 1, rest if 0
-# TV4
-#course * time
-var_cr_time = [[] for _ in xrange(data.coursesNum)]
-for i in xrange(data.coursesNum):
-		for k in xrange(n_o_time):
-			name = ','.join(["TV4cpt", str(i), str(k)]) # course, place, time
+	# TV2
+	# course * course
+	# variables to allowed to courses be in same day
+	var_in_day_binary = [[] for _ in xrange(Data.courses_num(projectid))]
+	for i in xrange(Data.courses_num(projectid)):
+		for j in xrange(Data.courses_num(projectid)):
+			name = ",".join(["TV2cc", str(i), str(j)])
 			var = LpVariable(name, 0, 1, LpInteger)
-			var_cr_time[i].append(var)
-###########################
+			var_in_day_binary[i].append(var)
 
-# const 1
-# check for intersections!
-# if two courses has confilct (any reason) 
-for c1 in xrange(data.coursesNum):
-	for c2 in xrange(data.coursesNum):
-		if data.conflicts[c1][c2]:
+	# TV3
+	# course * course
+
+	# variables to allowed to courses be in continues days.
+	var_continues = [[] for i in xrange(Data.courses_num(projectid))]
+	for i in xrange(Data.courses_num(projectid)):
+		for j in xrange(Data.courses_num(projectid)):
+			name = ",".join(["TV3cc", str(i), str(j)])
+			var = LpVariable(name, 0, 1, LpInteger)
+			var_continues[i].append(var)
+
+
+	# if a course is taken in a time 1, rest if 0
+	# TV4
+	#course * time
+	var_cr_time = [[] for _ in xrange(Data.courses_num(projectid))]
+	for i in xrange(Data.courses_num(projectid)):
+			for k in xrange(Data.times_num(projectid)):
+				name = ','.join(["TV4cpt", str(i), str(k)]) # course, place, time
+				var = LpVariable(name, 0, 1, LpInteger)
+				var_cr_time[i].append(var)
+	###########################
+
+	# const 1
+	# check for intersections!
+	# if two courses has confilct (any reason) 
+	for c1 in xrange(Data.courses_num(projectid)):
+		for c2 in xrange(Data.courses_num(projectid)):	
 			if c1 == c2:
 				continue
-			for time in xrange(n_o_time):
-				const = []
-				
-				const.append(var_cr_time[c1][time])
-				const.append(var_cr_time[c2][time])
-				problem += lpSum(const) <= 1
+			if Data.same_time_conflict(dict_courses[c1], dict_courses[c2]):  
+				for time in xrange(Data.times_num(projectid)):
+					const = []
+					
+					const.append(var_cr_time[c1][time])
+					const.append(var_cr_time[c2][time])
+					problem += lpSum(const) <= 1
 
 
 
-times_serial_day = []
-for time1 in xrange(n_o_time):
-	for time2 in xrange(n_o_time):
-		if abs(time1/4 - time2/4) == 1:
-			times_serial_day.append((time1, time2))
+	times_serial_day = [] # by their index
+	dict_times = {} # give index and get id!
+	for time1 in xrange(n_o_time):
+		for time2 in xrange(n_o_time):
+			if abs(time1/4 - time2/4) == 1:
+				times_serial_day.append((time1, time2))
 
 
-
+'''
 # being in two neighbor days!
 for c1 in xrange(data.coursesNum):
 	for c2 in xrange(data.coursesNum):
@@ -331,3 +335,4 @@ print n_o_time, " number of times"
 # import time
 # finish_time = time.time()
 # print "time: ", finish_time - start_time
+'''

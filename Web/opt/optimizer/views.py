@@ -94,8 +94,9 @@ def teacher_remove(request, tid):
 	return HttpResponseRedirect('/teachers')
 
 # /result/projectid
-def result(request):
-	pass
+def result(request, prid):
+	import optimizer
+	optimizer.optimize(prid)
 
 
 # save the changes

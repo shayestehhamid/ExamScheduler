@@ -12,18 +12,19 @@ months = {1:'فروردین', 2:'اردیبهشت', 3:'خرداد', 4:'تیر', 
 # not in same days
 # not in following days
 class ConstraintType(models.Model):
-	type = models.CharField(primary_key=True, max_length=50)
+	typec = models.CharField(primary_key=True, max_length=50)
 	description = models.CharField(max_length=50)
 
 class Constraint(models.Model):
-	type = models.ForeignKey(ConstraintType)
+	typec = models.ForeignKey(ConstraintType)
 	c1 = models.ForeignKey('Course', related_name='course1')
 	c2 = models.ForeignKey('Course', related_name='course2')
 	project = models.ForeignKey('Project')
 
 class Student(models.Model):
 	stdnom = models.CharField(primary_key=True, max_length=60)
-
+	def __repr__(self):
+		print self.stdnom
 class Teacher(models.Model):
 	name = models.CharField(max_length=60)
 

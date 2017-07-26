@@ -58,6 +58,19 @@ import xlrd
 # 	return self.coursesNames[index]
 
 
+def courses_num(prid):
+	pr = Project.objects.get(id=prid)
+	cr = Course.objects.filter(project=pr)
+	return len(cr)
+
+def times_num(prid):
+	pr  = Project.objects.get(id=prid)
+	times = Time.objects.filter(project=pr)
+	return len(times)
+
+def courses(prid):
+	pr = Project.objects.get(id=prid)
+	return Course.objects.filter(project=pr)
 
 def getStudentCourses(st): # courses of a student
 	""" st: student ID (String or int) """
@@ -91,7 +104,16 @@ def continues_time_conflict(c1, c2):
 	# connat be in following time
 
 def same_time_conflict(c1, c2):
-	pass
+	course1 = Course.objects.get(id=6)
+	course2 = Course.objects.get(id=7)
+	
+	if course1.teacher and course2.teacher and course1.teacher.id == coruse2.teacher.id:
+		return True
+	if set(course1.students.all()).intersection(course2.students.all()):
+		return True
+	# check in database to see if there is any conflict!
+	return False
+	
 	# cannot be in same time!
 
 def getTime(index):

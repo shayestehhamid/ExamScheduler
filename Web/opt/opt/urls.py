@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^project/const/([\w{}]{1,40})/', views.constraint),
     url(r'^project/upload/([\w{}]{1,40})/', views.upload_courses),
     url(r'^project/students/([\w{}]{1,40})/([\w{}]{1,40})/', views.course),
+    url(r'^result/([\w{}]{1,40})/', views.result),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
