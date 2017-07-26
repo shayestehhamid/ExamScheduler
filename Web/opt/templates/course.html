@@ -87,8 +87,8 @@
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست درس ها</h2>
           <div class="container-fluid" style="float: center">      
-            {% for course in courses%}
-              <a href="/project/students/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}}</a> 
+            {% for st in students%}
+              <a href="/course/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{st.stdnom}}</a> 
               <a href="/removecourse/{{course.id}}/{{prid}}/" title="delete">delete</a>
               <br>
 

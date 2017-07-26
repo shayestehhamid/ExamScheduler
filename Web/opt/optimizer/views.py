@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django_tables2 import RequestConfig
 from forms import NewProject, NewTime
 from django.http import HttpResponse, HttpResponseRedirect
-from models import Project, Teacher, Time, Constraint, Student, Course
+from models import Project, Teacher, Time, Constraint, Student, Course, ConstraintType
 import xlrd
 
 
@@ -105,6 +105,11 @@ def save(request):
 	pass
 
 
+def course(request, crid, prid):
+	students = Course.objects.get(id=crid).students.all()
+
+	return render(request, 'course.html', {"students":students, 'prid':prid, 'crid':crid})
+
 def courses(request, prid):
 	pr = Project.objects.get(id=prid)
 	courses = Course.objects.filter(project=pr)
@@ -142,6 +147,17 @@ def upload_courses(request, prid):
 	# optimization engine!
 
 def constraint(request, prid):
-	pr = Project.objects.filter(id=prid)
-	consts = Constraint.objects.filter(project=pr)
-	return render(request, 'const.html', {'consts':consts, 'prid':prid})
+	if request.method == "POST":
+		lform = NewProject(request.POST)
+		if lform.is_valid():
+			name = lform.cleaned_data['name']
+			tr = Teacher()
+			tr.name = name
+			
+			tr.save()
+			
+	pr = Project.objects.get(id=prid)
+	consts = Constraint.objects.get(project=pr)
+	courses = Course.objects.all()
+	constt = ConstraintType.objects.all()
+	return render(request, 'const.html', {'consts':consts, 'prid':prid, 'courses':courses, 'ctype':constt})
