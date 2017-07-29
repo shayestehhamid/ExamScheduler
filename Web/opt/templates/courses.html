@@ -87,16 +87,22 @@
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست درس ها</h2>
           <div class="container-fluid" style="float: center">      
-            {% for course in courses%}
-              <a href="/project/students/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}}</a> 
-              <a href="/removecourse/{{course.id}}/{{prid}}/" title="delete">delete</a>
-              <br>
+            <ol>
 
+            {% for course in courses%}
+            <li>
+              <a href="/project/students/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}} {{course.time}}</a> 
+              <a href="/removecourse/{{course.id}}/" title="delete">delete</a>
+              <br>
+        </li>
             {% endfor %}
+            </ol>
           </div>
         </main>
         <!-- add a vertical line here! -->
-
+        {% for key in conflicts%}
+          {{key}} <h2>  </h2> {{conflicts.key}} <br>
+        {% endfor %}
     </div>
 
     <!-- Bootstrap core JavaScript

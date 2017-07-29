@@ -82,21 +82,43 @@
           </ul> -->
  
         </nav>
-        
+
         <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
+        <h2>{{course.name}}</h2> <br>
+        <h2>{{course.teacher.name}}</h2>
+        <h2>{{course.time}}</h2>
           <h2>لیست درس ها</h2>
           <div class="container-fluid" style="float: center">      
             {% for st in students%}
               <a href="/course/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{st.stdnom}}</a> 
-              <a href="/removecourse/{{course.id}}/{{prid}}/" title="delete">delete</a>
-              <br>
+<!--               <a href="/removecourse/{{course.id}}/{{prid}}/" title="delete">delete</a>
+ -->              <br>
 
             {% endfor %}
           </div>
         </main>
         <!-- add a vertical line here! -->
-
+       <div class="col-md-4 col-sm-4">
+        <h3>استاد درس</h3>
+          
+          <!-- ye form bezaram ke ba plus behesh ezafe beshe baad dg hala 
+          biam doone doone beferstam ke factor sabr beshe -->
+          
+          <div class="form-group">
+          <form action="/course/setteacher/{{crid}}/{{prid}}/" method="POST" autocomplete="off" id="factor">
+            {% csrf_token %}
+             <select name="teacher">
+              {% for teacher in teachers%}
+              <option value="{{teacher.id}}">{{teacher.name}}</option>
+              {% endfor %}
+            </select>
+            <br>
+            <input type="submit" value="ثبت استاد" />
+        </form>
+                  
+        </div>
+      </div>
     </div>
 
     <!-- Bootstrap core JavaScript

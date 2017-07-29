@@ -3,6 +3,10 @@ import xlrd
 from models import Project, Teacher, Time, Constraint, Student, Course
 import xlrd
 
+
+in_continues_day = 100
+in_day_cost = 100000
+
 # class Chart:
 
 # 	def openFile(self, path):
@@ -57,16 +61,60 @@ import xlrd
 # def getCourseName(self, index):
 # 	return self.coursesNames[index]
 
+def set_course_time(crid, time):
+	course = Course.objects.get(id=crid)
+	# time = Time.objects.get(id=tid)
+	course.time = time
+	course.save()
+
+def times(prid):
+	pr = Project.objects.get(id=prid)
+	return Time.objects.filter(project=pr)
+
+def times_num(prid):
+	pr  = Project.objects.get(id=prid)
+	times = Time.objects.filter(project=pr)
+	return len(times)
+
+# are times in one day
+def in_day_time(time1, time2):
+	# time1 = Time.objects.get(id=t1)
+	# time2 = Time.objects.get(id=t2)
+	if time1.d == time2.d and time1.m == time2.m:
+		return True
+	return False
+
+msizes = {1:31, 2:31, 3:31, 4:31, 5:31, 6:31, 7:30, 8:30, 9:30, 10:30, 11:30, 12:30}
+
+# are time in continues day
+def continues_day_time(time1, time2):
+	# time1 = Time.objects.get(id=t1)
+	# time2 = Time.objects.get(id=t2)
+	if time1.m == time2.m:
+		if abs(time1.d - time2.d) == 1:
+			return True
+	# not in same month
+	if abs(time1.m - time2.m) == 1:
+		# 1 bozorgtare, 2 kochiktare!
+		time1, time2 = time1, time2 if time1.m - time2.m == 1 else time2, time1
+		if time1.d == 1 and time2.d == msizes[time2.m]:
+			return True
+	return False
+
+# are time in continues time, next hour!
+def continues_time_time(time1, time2):
+	if in_day_time(time1, time2):
+		# time1 = Time.objects.get(id=t1)
+		# time2 = Time.objects.get(id=t2)
+		if abs(time1.h - time2.h) == 3:
+			return True
+	return False
 
 def courses_num(prid):
 	pr = Project.objects.get(id=prid)
 	cr = Course.objects.filter(project=pr)
 	return len(cr)
 
-def times_num(prid):
-	pr  = Project.objects.get(id=prid)
-	times = Time.objects.filter(project=pr)
-	return len(times)
 
 def courses(prid):
 	pr = Project.objects.get(id=prid)
@@ -91,6 +139,11 @@ def chartConflict(c1, c2):
 	# if have conflicts in charts!
 	pass
 
+def students_conflict(c1, c2):
+	course1 = Course.objects.get(id=c1)
+	course2 = Course.objects.get(id=c2)
+	return len(set(course1.students.all()).intersection(course2.students.all()))
+		
 def in_day_conflict(c1, c2):
 	pass
 	# have conflict that has not to be in one day
@@ -103,11 +156,11 @@ def continues_time_conflict(c1, c2):
 	pass
 	# connat be in following time
 
-def same_time_conflict(c1, c2):
-	course1 = Course.objects.get(id=6)
-	course2 = Course.objects.get(id=7)
+def has_same_time_conflict(c1, c2):
+	course1 = Course.objects.get(id=c1)
+	course2 = Course.objects.get(id=c2)
 	
-	if course1.teacher and course2.teacher and course1.teacher.id == coruse2.teacher.id:
+	if course1.teacher and course2.teacher and course1.teacher.id == course2.teacher.id:
 		return True
 	if set(course1.students.all()).intersection(course2.students.all()):
 		return True

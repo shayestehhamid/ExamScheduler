@@ -87,12 +87,20 @@
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست ساعت ها</h2>
           <div class="container-fluid" style="float: center">      
+            <ol>
             {% for time in times%}
+              <li>
               {{time.d}} {{time.month}} {{time.h}} {{time.weekday}} <a href="/removetime/{{time.id}}/{{prid}}/" title="delete">delete</a>
               <br>
-
+              </li>
             {% endfor %}
+          </ol>
           </div>
+           <br>
+            <br>
+             <br>
+              <br>
+               <br>
         </main>
         <!-- add a vertical line here! -->
         <div class="col-md-4 col-sm-4">

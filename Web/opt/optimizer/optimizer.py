@@ -5,9 +5,6 @@ import matplotlib.pyplot as plt
 
 removed_course = -1
 
-# for c1 in xrange(data.coursesNum):
-# 	data.conflicts[c1][removed_course] = 0
-# 	data.conflicts[removed_course][c1] = 0
 
 import time
 
@@ -60,11 +57,12 @@ def optimize(projectid):
 	# const 1
 	# check for intersections!
 	# if two courses has confilct (any reason) 
+	# including professors!
 	for c1 in xrange(Data.courses_num(projectid)):
 		for c2 in xrange(Data.courses_num(projectid)):	
-			if c1 == c2:
+			if c1 == c2 or c1 > c2:
 				continue
-			if Data.same_time_conflict(dict_courses[c1], dict_courses[c2]):  
+			if Data.has_same_time_conflict(dict_courses[c1], dict_courses[c2]):  
 				for time in xrange(Data.times_num(projectid)):
 					const = []
 					
@@ -72,141 +70,123 @@ def optimize(projectid):
 					const.append(var_cr_time[c2][time])
 					problem += lpSum(const) <= 1
 
-
-
-	times_serial_day = [] # by their index
+	print "73", Data.courses_num(projectid)
+	times = Data.times(projectid)
 	dict_times = {} # give index and get id!
-	for time1 in xrange(n_o_time):
-		for time2 in xrange(n_o_time):
-			if abs(time1/4 - time2/4) == 1:
-				times_serial_day.append((time1, time2))
+	for i in xrange(len(times)):
+		dict_times[i] = times[i]
 
+	cn_times = []
+
+	for t1 in xrange(Data.times_num(projectid)):
+					for t2 in xrange(Data.times_num(projectid)):
+						# print c1, c2, t1, t2, 'in 94'
+						if Data.continues_day_time(dict_times[t1], dict_times[t2]):
+							cn_times.append((t1, t2))
+		
+
+	# being in two neighbor days! # emroz va farda
+	for c1 in xrange(Data.courses_num(projectid)):
+		for c2 in xrange(Data.courses_num(projectid)):
+			if Data.students_conflict(dict_courses[c1] ,dict_courses[c2]) and c1 < c2:			
+				for t1, t2 in cn_times:
+					# print c1, c2, t1, t2, 'in 94'
+					if Data.continues_day_time(dict_times[t1], dict_times[t2]):
+						const = []
+					
+						const.append(var_cr_time[c1][t1])
+						const.append(var_cr_time[c2][t2])
+						problem += lpSum(const) <= (1 + var_continues[c1][c2])
+
+
+	print "94", Data.courses_num(projectid)
+
+	# next hour!
+
+	cont_times = []
+	for t1 in xrange(Data.times_num(projectid)):
+					for t2 in xrange(Data.times_num(projectid)):
+						if Data.continues_time_time(dict_times[t1], dict_times[t2]):
+							cont_times.append((t1, t2))
+
+	# constrains for AA table, being after each other!
+	for c1 in xrange(Data.courses_num(projectid)):
+		for c2 in xrange(Data.courses_num(projectid)):
+			if Data.students_conflict(dict_courses[c1] ,dict_courses[c2]) and c1 < c2:			
+				for t1, t2 in cont_times:
+					const = []
+				
+					const.append(var_cr_time[c1][t1])
+					const.append(var_cr_time[c2][t2])
+					problem += lpSum(const) <= 1 
+
+	# const 4
+	print "112", Data.courses_num(projectid)
+
+	in_day_time_list = []
+	for t1 in xrange(Data.times_num(projectid)):
+					for t2 in xrange(Data.times_num(projectid)):
+						if not Data.continues_time_time(dict_times[t1], dict_times[t2]) \
+								and Data.in_day_time(dict_times[t1], dict_times[t2]):
+							in_day_time_list.append((t1, t2))
+
+	# same day, not following time
+	# constrains for AD table, being in one day
+	for c1 in xrange(Data.courses_num(projectid)):
+		for c2 in xrange(Data.courses_num(projectid)):
+			if Data.students_conflict(dict_courses[c1] ,dict_courses[c2]):			
+				for t1, t2 in in_day_time_list:
+					const = []
+					
+					const.append(var_cr_time[c1][t1])
+					const.append(var_cr_time[c2][t2])
+					problem += lpSum(const) <= (1 + var_in_day_binary[c1][c2])
+
+	print "129", Data.courses_num(projectid)
+	# no two course of same semester are in same day!
+	# will be handle by conflicts in database!
+
+
+	# const 5
+	# time is surely assigned for course
+
+	for course in xrange(Data.courses_num(projectid)):
+		const = []
+		for time in xrange(Data.times_num(projectid)):	
+			const.append(var_cr_time[course][time])
+		problem += lpSum(const) == 1
+
+
+	print "144", Data.courses_num(projectid)
+	print "objectivE!"
+
+	############################
+	#objective!
+	lst = []
+	lst2 = []
+	for course1 in xrange(Data.courses_num(projectid)):
+		for course2 in xrange(Data.courses_num(projectid)):
+			if course1 < course2:
+				lst.append(var_in_day_binary[course1][course2]*
+						Data.students_conflict(dict_courses[course1], dict_courses[course2])*
+						Data.in_day_cost)			
+	 			lst2.append(var_continues[course1][course2]*
+	 					Data.students_conflict(dict_courses[course1], dict_courses[course2])*
+						Data.in_continues_day)
+
+	problem += lpSum(lst)
+	# print "l;ksdfa"
+	# print problem.objective
+	problem.writeLP("problem.lp")
+	status = problem.solve()	
+	print LpStatus[status]
+	print "problem solved!"
+	for course in xrange(Data.courses_num(projectid)):
+		for time in xrange(Data.times_num(projectid)):
+			if value(var_cr_time[course][time]) == 1:
+				Data.set_course_time(dict_courses[course], dict_times[time])				
 
 '''
-# being in two neighbor days!
-for c1 in xrange(data.coursesNum):
-	for c2 in xrange(data.coursesNum):
-		if data.conflicts[c1][c2] :			
-			for t1, t2 in times_serial_day:
-				const = []
-			
-				const.append(var_cr_time[c1][t1])
-				const.append(var_cr_time[c2][t2])
-				problem += lpSum(const) <= (1 + var_continues[c1][c2])
-
-
-
-# const 3
-# times for next
-times_serial = []
-for time1 in xrange(n_o_time):
-	for time2 in xrange(n_o_time):
-		if time1/4 == time2/4 and abs(time1 - time2) == 1:
-			times_serial.append((time1, time2))
-
-# constrains for AA table, being after each other!
-for c1 in xrange(data.coursesNum):
-	for c2 in xrange(data.coursesNum):
-		if data.conflicts[c1][c2]:			
-			for t1, t2 in times_serial:
-				const = []
-			
-				const.append(var_cr_time[c1][t1])
-				const.append(var_cr_time[c2][t2])
-				problem += lpSum(const) <= 1 
-
-# const 4
-# times for next
-times_day = []
-for time1 in xrange(n_o_time):
-	for time2 in xrange(n_o_time):
-		if time1/4 == time2/4 and abs(time1 - time2) > 1:
-			times_day.append((time1, time2))
-
-# constrains for AD table, being in one day
-for c1 in xrange(data.coursesNum):
-	for c2 in xrange(data.coursesNum):
-		if data.conflicts[c1][c2]:			
-			for t1, t2 in times_day:
-				const = []
-				
-				const.append(var_cr_time[c1][t1])
-				const.append(var_cr_time[c2][t2])
-				problem += lpSum(const) <= (1 + var_in_day_binary[c1][c2])
-
-# no two course of same semester are in same day!
-# for c1 in xrange(data.coursesNum):
-# 	for c2 in xrange(data.coursesNum):
-# 		if c1 == c2:
-# 			continue
-# 		if c1 == removed_course or c2 == removed_course:
-# 			continue
-# 		if data.chartConflict(c1, c2):
-# 			for t1 in xrange(n_o_time):
-# 				for t2 in xrange(n_o_time):
-# 					if t1/4 == t2/4:
-# 						problem += var_cr_time[c1][t1] + var_cr_time[c2][t2] <= 1
-
-
-# prof conflict
-
-for c1 in xrange(data.coursesNum):
-	for c2 in xrange(data.coursesNum):
-		if c1 != c2:
-			if c1 == removed_course or c2 == removed_course:
-				continue
-			if data.profConflict(c1, c2):
-				for time in xrange(n_o_time):
-					problem += (var_cr_time[c1][time] + var_cr_time[c2][time]) <= 1
-
-# const 5
-# time is surely assigned for course
-
-for course in xrange(data.coursesNum):
-	const = []
-	for time in xrange(n_o_time):	
-		const.append(var_cr_time[course][time])
-	problem += lpSum(const) == 1
-
-
-
-
-print "objectivE!"
-
-############################
-#objective!
-lst = []
-lst2 = []
-for course1 in xrange(data.coursesNum):
-	for course2 in xrange(data.coursesNum):
-		if course1 < course2:
-			lst.append(var_in_day_binary[course1][course2]*data.TR4[course1][course2])			
- 			lst2.append(var_continues[course1][course2]*data.TR5[course1][course2])
-
-problem += lpSum(lst)
-# print "l;ksdfa"
-# print problem.objective
-
-
-
-# zarb in_day ba element moshabeh
-# zarb continues ba element moshabeh
-# vase inke bere akhara hamash!
-# for course in xrange(data.coursesNum):
-
-# 	for time in xrange(n_o_time):
-# 			problem += var_cr_time[course][time]*data.TR2[course][time]
-# zarb coursetime, dar hanizeie time
-
-########################
-
-
-print "problem created!"
-status = problem.solve()	
-print LpStatus[status]
-print "problem solved!"
-
-
 import xlsxwriter
 workbook = xlsxwriter.Workbook('res1.xlsx')
 worksheet = workbook.add_worksheet()
@@ -214,7 +194,7 @@ worksheet = workbook.add_worksheet()
 
 result= []
 
-# problem.writeLP("problem.lp")
+
 row = 0
 for course in xrange(data.coursesNum):
 	for time in xrange(n_o_time):
@@ -260,79 +240,18 @@ print n_o_time, " number of times"
 
 
 
-
-# import networkx as nx
-# G = nx.Graph()
-
-
-# for i in xrange(data.coursesNum):
-# 	G.add_node(i)
-
-
-# for index1 in xrange(data.coursesNum):
-# 	for index2 in xrange(data.coursesNum):
-# 		if index1 < index2 and data.conflicts[index1][index2]:
-# 			G.add_edge(index1, index2, weight=data.conflicts[index1][index2])
-
-
-
-# pos = nx.circular_layout(G)
-# nx.draw_networkx(G, pos)
-
-# labels = {}
-# for i in xrange(data.coursesNum):
-# 	labels[i] = str(G.degree(i))+","+data.getCourseName(i)
-
-# nx.draw_networkx_labels(G, pos, labels)
-
-# plt.figure(1, figsize=(1000, 1000))
-# plt.axis('off')
-# plt.savefig("weighted_graph.png") # save as png
-# plt.show() # displa
-
-
-
-
-# import xlrd
-
-# book = xlrd.open_workbook('Book3.xlsx')
-# sheet = book.sheet_by_index(0)
-
-# course = sheet.col_values(0)
-# course = [int(x) for x in course]
-# times = sheet.col_values(2)
-# for index in xrange(len(times)):
-# 	t1, t2 = times[index].split('-')
-	
-
-# 	times[index] = int(t1)*4 + int(t2)
-
-# result1 = zip(course, times)
-
-# n_days_conf = 0
-# n_serial_conf = 0
-# two_serial_day = 0
-
-# for index1 in xrange(len(result1)):
-# 	for index2 in xrange(len(result1)):
-# 		if index1 < index2:
-# 			c1, t1 = result1[index1]
-# 			c2, t2 = result1[index2]
-# 			if t1/4 == t2/4 and abs(t1-t2)==1:
-# 				n_serial_conf += data.conflicts[c1][c2]
-# 				continue
-# 			if t1/4 == t2/4:
-# 				n_days_conf += data.conflicts[c1][c2]
-# 			if abs(t1/4 - t2/4) == 1:
-# 				# print index1, index2
-# 				two_serial_day += data.conflicts[index1][index2]
-
-# print "male ouna bashe"
-# print n_serial_conf
-# print n_days_conf
-# print two_serial_day
-
 # import time
 # finish_time = time.time()
+
+
 # print "time: ", finish_time - start_time
+# zarb in_day ba element moshabeh
+# zarb continues ba element moshabeh
+# vase inke bere akhara hamash!
+# for course in xrange(data.coursesNum):
+
+# 	for time in xrange(n_o_time):
+# 			problem += var_cr_time[course][time]*data.TR2[course][time]
+# zarb coursetime, dar hanizeie time
+
 '''

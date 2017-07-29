@@ -88,7 +88,7 @@
           <h2>لیست پروژه ها</h2>
           <div class="container-fluid" style="float: center">      
           {% for x in projects%}
-            <a href="/result/{{x.id}}">{{x.name}}</a>
+            <a href="/result/{{x.id}}">solve</a>
             <a href="/project/{{x.id}}">{{x.name}}</a>
             <a href="/project/time/{{x.id}}">times</a>
             <a href="/project/course/{{x.id}}">courses</a>
@@ -114,20 +114,7 @@
             
             <input type="submit" value="ساخت پروژه" />
         </form>
-                  <!--  <div id="myDIV" class="header">
-            <h2>My To Do List</h2>
-            <input type="text" id="myInput" placeholder="Title...">
-            <span onclick="newElement()" class="addBtn">Add</span>
-          </div>
-
-          <ul id="myUL">
-            <li>Hit the gym</li>
-
-            <li>Meet George</li>
-            <li>Buy eggs</li>
-            <li>Read a book</li>
-            <li>Organize office</li>
-          </ul>  -->
+                  
         </div>
       </div>
     </div>

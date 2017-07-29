@@ -9,7 +9,7 @@ from forms import NewProject, NewTime
 from django.http import HttpResponse, HttpResponseRedirect
 from models import Project, Teacher, Time, Constraint, Student, Course, ConstraintType
 import xlrd
-
+import data as Data
 
 
 global months
@@ -93,10 +93,19 @@ def teacher_remove(request, tid):
 	Teacher.objects.filter(id=tid).delete()
 	return HttpResponseRedirect('/teachers')
 
+def set_teacher(request, crid, prid):
+	tid =  request.POST['teacher']
+	teacher = Teacher.objects.get(id=tid)
+	course = Course.objects.get(id=crid)
+	course.teacher = teacher
+	course.save()
+	return HttpResponseRedirect('/project/students/'+str(crid)+'/'+str(prid))
+
 # /result/projectid
 def result(request, prid):
 	import optimizer
 	optimizer.optimize(prid)
+	return HttpResponseRedirect('/projects/prid/')
 
 
 # save the changes
@@ -108,13 +117,33 @@ def save(request):
 
 def course(request, crid, prid):
 	students = Course.objects.get(id=crid).students.all()
+	teachers = Teacher.objects.all()
+	course = Course.objects.get(id=crid)
+	return render(request, 'course.html', {'course':course, "students":students, 'prid':prid, 'crid':crid, 'teachers':teachers})
 
-	return render(request, 'course.html', {"students":students, 'prid':prid, 'crid':crid})
+def comp_eng(courses):
+	cont_time = 0
+	in_day_time = 0
+	cont_day = 0
+	for c1 in courses:
+		for c2 in courses:
+			if c1.id < c2.id:
+				if not c1.time or not c2.time:
+					return {}
+				if Data.continues_time_time(c1.time, c2.time):
+					cont_time += Data.students_conflict(c1.id, c2.id)
+				elif Data.in_day_time(c1.time, c2.time):
+					in_day_time += Data.students_conflict(c1.id, c2.id)
+				elif Data.continues_day_time(c1.time, c2.time):
+					cont_day += Data.students_conflict(c1.id, c2.id)
+	return {'continues_time':cont_time, 'in_day':in_day_time, 'continues_day':cont_day}
 
 def courses(request, prid):
 	pr = Project.objects.get(id=prid)
 	courses = Course.objects.filter(project=pr)
-	return render(request, 'courses.html', {'courses':courses, 'prid':prid})
+	conflicts = comp_eng(courses)
+	print conflicts
+	return render(request, 'courses.html', {'courses':courses, 'prid':prid, 'conflicts':conflicts})
 
 def upload_courses(request, prid):
 	book = xlrd.open_workbook('Book1.xlsx')
@@ -146,7 +175,9 @@ def upload_courses(request, prid):
 	# time will be added in solution finding!
 	# computation engine we have
 	# optimization engine!
-
+def course_remove(request, crid):
+	Course.objects.get(id=crid).delete()
+	return HttpResponseRedirect('/projects')
 def constraint(request, prid):
 	if request.method == "POST":
 		lform = NewProject(request.POST)
@@ -162,3 +193,6 @@ def constraint(request, prid):
 	courses = Course.objects.all()
 	constt = ConstraintType.objects.all()
 	return render(request, 'const.html', {'consts':consts, 'prid':prid, 'courses':courses, 'ctype':constt})
+
+def inter(request, c1, c2):
+	print "intersect of ",c1, c2, Data.students_conflict(c1, c2)

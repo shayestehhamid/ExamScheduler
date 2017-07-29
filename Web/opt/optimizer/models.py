@@ -48,6 +48,9 @@ class Time(models.Model):
 	weekday = models.CharField(max_length=20)
 	project = models.ForeignKey(Project)
 
+	def __str__(self):
+		return " " + str(self.d) + '-'+str(self.m)+' '+str(self.h)
+
 	def calcmonth(self):
             global months
             return months[self.m]

@@ -197,7 +197,7 @@ problem += lpSum(lst)
 
 ########################
 
-
+problem.writeLP("problem.lp")
 print "problem created!"
 status = problem.solve()	
 print LpStatus[status]
@@ -211,7 +211,7 @@ worksheet = workbook.add_worksheet()
 
 result= []
 
-# problem.writeLP("problem.lp")
+# 
 row = 0
 for course in xrange(data.coursesNum):
 	for time in xrange(n_o_time):
