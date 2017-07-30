@@ -146,7 +146,7 @@ def optimize(projectid):
 	# no two course of same semester are in same day!
 	# will be handle by conflicts in database!
 
-
+	
 	# const 5
 	# time is surely assigned for course
 

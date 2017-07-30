@@ -17,7 +17,25 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
- 
+ <style type="text/css">
+
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{
+    border-collapse: separate;
+}
+
+tr td:first-child:before
+{
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content:  counter(Serial) "."; /* Display the counter */
+}
+
+</style>
     <!-- Custom styles for this template -->
     <link href="{% static 'dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'list.css' %}" rel="stylesheet">
@@ -93,7 +111,7 @@
                 <th>درس ۲</th>
                 <th>درس ۱</th>
                 <th>نوع محدودیت</th>
-                <th></th>
+                <th>حذف</th>
               </tr>
             </thead>
 

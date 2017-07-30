@@ -17,7 +17,25 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
- 
+ <style type="text/css">
+
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{
+    border-collapse: separate;
+}
+
+tr td:first-child:before
+{
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content:  counter(Serial) "."; /* Display the counter */
+}
+
+</style>
     <!-- Custom styles for this template -->
     <link href="{% static 'dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'list.css' %}" rel="stylesheet">
@@ -87,14 +105,35 @@
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست ساعت ها</h2>
           <div class="container-fluid" style="float: center">      
-            <ol>
-            {% for time in times%}
-              <li>
-              {{time.d}} {{time.month}} {{time.h}} {{time.weekday}} <a href="/removetime/{{time.id}}/{{prid}}/" title="delete">delete</a>
-              <br>
-              </li>
-            {% endfor %}
-          </ol>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>ماه</th>
+                <th>روز</th>
+                <th>ساعت</th>
+                <th>روز هفته</th>
+                <th>حذف</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              
+                {% for time in times%}
+              
+              <tr>
+              <td> {{time.month}} </td>
+              <td> {{time.d}} </td>
+              <td> {{time.h}} </td>
+              <td> {{time.weekday}} </td>
+              <td> <a type="button" class="btn btn-danger" href="/removetime/{{time.id}}/{{prid}}/" title="delete">حذف</a> </td> 
+              
+            
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>  
+            
+          
           </div>
            <br>
             <br>

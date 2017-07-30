@@ -95,9 +95,12 @@ def teacher_remove(request, tid):
 
 def set_teacher(request, crid, prid):
 	tid =  request.POST['teacher']
+	timeid = request.POST['time']
 	teacher = Teacher.objects.get(id=tid)
+	time = Time.objects.get(id=timeid)
 	course = Course.objects.get(id=crid)
 	course.teacher = teacher
+	course.time = time
 	course.save()
 	return HttpResponseRedirect('/project/students/'+str(crid)+'/'+str(prid))
 
@@ -119,7 +122,9 @@ def course(request, crid, prid):
 	students = Course.objects.get(id=crid).students.all()
 	teachers = Teacher.objects.all()
 	course = Course.objects.get(id=crid)
-	return render(request, 'course.html', {'course':course, "students":students, 'prid':prid, 'crid':crid, 'teachers':teachers})
+	pr = Project.objects.get(id=prid)
+	times = Time.objects.filter(project=pr)
+	return render(request, 'course.html', {'times':times, 'course':course, "students":students, 'prid':prid, 'crid':crid, 'teachers':teachers})
 
 def comp_eng(courses):
 	cont_time = 0
