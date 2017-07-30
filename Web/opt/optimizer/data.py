@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import xlrd
-from models import Project, Teacher, Time, Constraint, Student, Course
+from models import Project, Teacher, Time, Constraint, Student, Course, ConstraintType
 import xlrd
 
 
@@ -85,6 +85,15 @@ def in_day_time(time1, time2):
 	return False
 
 msizes = {1:31, 2:31, 3:31, 4:31, 5:31, 6:31, 7:30, 8:30, 9:30, 10:30, 11:30, 12:30}
+
+def list_course_not_in_day_db(projectid):
+	ct = ConstraintType.objects.get(typec='inday')
+	pr = Project.objects.get(id=projectid)
+	lst = Constraint.objects.filter(typec=ct, project=pr)
+
+	lst2 = [(t.c1.id, t.c2.id) for t in lst]
+	print lst2
+	return lst2
 
 # are time in continues day
 def continues_day_time(time1, time2):

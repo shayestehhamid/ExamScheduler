@@ -32,7 +32,7 @@ class Teacher(models.Model):
 class Course(models.Model):
 	name = models.CharField(max_length=40)
 	students = models.ManyToManyField(Student)
-	time = models.ForeignKey('Time', null=True)
+	time = models.ForeignKey('Time', null=True, on_delete=models.SET_NULL)
 	teacher = models.ForeignKey(Teacher, null=True)
 	project = models.ForeignKey('Project', null=True)
 

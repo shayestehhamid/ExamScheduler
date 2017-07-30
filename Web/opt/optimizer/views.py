@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from models import Project, Teacher, Time, Constraint, Student, Course, ConstraintType
 import xlrd
 import data as Data
-
+import threading
 
 global months
 months = {1:'فروردین', 2:'اردیبهشت', 3:'خرداد', 4:'تیر', 5:'مرداد', 6:'شهریور', 7:'مهر', 8:'آبان', 9:'آذر', 10:'دی', 11:'بهمن', 12:'اسفند'}
@@ -58,9 +58,9 @@ def times(request, prid):
 		time.weekday = weekday
 		time.project = Project.objects.get(id=int(prid))
 		time.save()
-			
-	times = Time.objects.all()
-	print times
+	pr = Project.objects.get(id=prid)
+	times = Time.objects.filter(project=pr)
+	# print times
 	return render(request, 'time.html', {'days':range(1, 32), 'times':times, 'prid':prid})
 
 
@@ -107,7 +107,8 @@ def set_teacher(request, crid, prid):
 # /result/projectid
 def result(request, prid):
 	import optimizer
-	optimizer.optimize(prid)
+	op = optimizer.Optimize(prid)
+	op.start()
 	return HttpResponseRedirect('/projects/prid/')
 
 
@@ -141,7 +142,7 @@ def comp_eng(courses):
 					in_day_time += Data.students_conflict(c1.id, c2.id)
 				elif Data.continues_day_time(c1.time, c2.time):
 					cont_day += Data.students_conflict(c1.id, c2.id)
-	return {'continues_time':cont_time, 'in_day':in_day_time, 'continues_day':cont_day}
+	return [('continues_time', cont_time), ('in_day',in_day_time), ('continues_day',cont_day)]
 
 def courses(request, prid):
 	pr = Project.objects.get(id=prid)

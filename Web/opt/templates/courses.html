@@ -101,7 +101,7 @@ tr td:first-child:before
           </ul> -->
  
         </nav>
-        
+       
         <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست درس ها</h2>
@@ -139,7 +139,11 @@ tr td:first-child:before
           {{key}} <h2>  </h2> {{conflicts.key}} <br>
         {% endfor %}
     </div>
-
+    <div class="col-md-4 col-sm-4">
+     {% for x in conflicts %}
+            {{x}}
+        {% endfor %}
+        </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
