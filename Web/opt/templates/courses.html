@@ -17,7 +17,26 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
- 
+ <style type="text/css">
+
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{
+    border-collapse: separate;
+}
+
+tr td:first-child:before
+{
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content:  counter(Serial) "."; /* Display the counter */
+}
+
+</style>
+
     <!-- Custom styles for this template -->
     <link href="{% static 'dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'list.css' %}" rel="stylesheet">
@@ -87,16 +106,32 @@
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست درس ها</h2>
           <div class="container-fluid" style="float: center">      
-            <ol>
-
+            
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>نام درس</th>
+                <th>نام استاد</th>
+                <th>زمان </th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody>
             {% for course in courses%}
-            <li>
-              <a href="/project/students/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}} {{course.time}}</a> 
-              <a href="/removecourse/{{course.id}}/" title="delete">delete</a>
-              <br>
-        </li>
+            <tr>
+              <td> <a href="/project/students/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}} </a> </td>
+              <td> {{ course.teacher.name }} </td>
+              <td> {{course.time}} </td>
+              <td><a href="/removecourse/{{course.id}}/" title="delete">delete</a> </td>
+            </tr>
+        
             {% endfor %}
-            </ol>
+    
+              
+            </tbody>
+          </table>
+            
+          </ol>
           </div>
         </main>
         <!-- add a vertical line here! -->

@@ -35,5 +35,5 @@ urlpatterns = [
     url(r'^result/([\w{}]{1,40})/', views.result),
     url(r'^course/setteacher/([\w{}]{1,40})/([\w{}]{1,40})', views.set_teacher),
     url(r'^inter/([\w{}]{1,40})/([\w{}]{1,40})/', views.inter),
-
+    url(r'^removeconst/([\w{}]{1,40})/([\w{}]{1,40})', views.const_remove),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -17,7 +17,26 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
- 
+ <style type="text/css">
+
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+table
+{
+    border-collapse: separate;
+}
+
+tr td:first-child:before
+{
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content: counter(Serial) ". "; /* Display the counter */
+}
+
+</style>
+
     <!-- Custom styles for this template -->
     <link href="{% static 'dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'list.css' %}" rel="stylesheet">
@@ -86,17 +105,38 @@
         <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست پروژه ها</h2>
-          <div class="container-fluid" style="float: center">      
-          {% for x in projects%}
-            <a href="/result/{{x.id}}">solve</a>
-            <a href="/project/{{x.id}}">{{x.name}}</a>
-            <a href="/project/time/{{x.id}}">times</a>
-            <a href="/project/course/{{x.id}}">courses</a>
-            <a href="/project/upload/{{x.id}}">getcourses</a>
-            <a href="/project/const/{{x.id}}">constraints</a>
-            <a href="/removeproject/{{x.id}}">delete</a>
-             <br>
-          {% endfor %}    
+          <div class="container-fluid" style="float: center">  
+          <table class="table table-bordered">
+            
+            <thead>
+              <tr>
+                <th>نام پروژه </th>
+                <th>بهینه سازی </th>
+                <th>زمان ها</th>
+                <th>دروس</th>
+                <th>بارگذاری دروس</th>
+                <th>محدودیت ها</th>
+                <th>حذف</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {% for x in projects%}
+              <tr>
+            <td> <a href="/result/{{x.id}}">بهینه سازی </a> </td>
+            <td> {{x.name}} </td>
+            <td> <a href="/project/time/{{x.id}}">زمان ها</a> </td>
+            <td> <a href="/project/course/{{x.id}}">درس ها</a> </td>
+            <td> <a href="/project/upload/{{x.id}}">بارگزاری</a> </td>
+            <td> <a href="/project/const/{{x.id}}">محدودیت ها</a> </td>
+            <td> <a href="/removeproject/{{x.id}}">حذف</a> </td>
+             </tr>
+            {% endfor %}    
+                
+              
+            </tbody>
+          </table>    
+          
           </div>
         </main>
         <!-- add a vertical line here! -->

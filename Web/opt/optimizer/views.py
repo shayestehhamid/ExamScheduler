@@ -180,19 +180,32 @@ def course_remove(request, crid):
 	return HttpResponseRedirect('/projects')
 def constraint(request, prid):
 	if request.method == "POST":
-		lform = NewProject(request.POST)
-		if lform.is_valid():
-			name = lform.cleaned_data['name']
-			tr = Teacher()
-			tr.name = name
-			
-			tr.save()
-			
+		lform = request.POST
+		c1 = lform['c1']
+		c2 = lform['c2']
+		tt = lform['type']
+		ct = Constraint()
+		ct.typec = ConstraintType.objects.get(typec=tt)
+		ct.project = Project.objects.get(id=prid)
+		ct.c1 = Course.objects.get(id=c1)
+		ct.c2 = Course.objects.get(id=c2)
+		ct.save()
+	
 	pr = Project.objects.get(id=prid)
-	consts = Constraint.objects.get(project=pr)
-	courses = Course.objects.all()
+	consts = Constraint.objects.filter(project=pr)
+	courses = Course.objects.filter(project=pr)
 	constt = ConstraintType.objects.all()
 	return render(request, 'const.html', {'consts':consts, 'prid':prid, 'courses':courses, 'ctype':constt})
 
+def const_remove(request, ctid, prid):
+	const = Constraint.objects.get(id=ctid)
+	const.delete()
+	return HttpResponseRedirect('/project/const/'+str(prid)+'/')
+
 def inter(request, c1, c2):
-	print "intersect of ",c1, c2, Data.students_conflict(c1, c2)
+	ct = ConstraintType(typec='inday')
+	ct2 = ConstraintType(typec='contday')
+	ct.description = "در یک روز بودن"
+	ct2.description = "در دو روز متوالی بودن"
+	ct.save()
+	ct2.save()

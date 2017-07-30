@@ -86,12 +86,31 @@
         <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست محدودیت ها </h2>
-          <div class="container-fluid" style="float: center">      
-            {% for const in consts%}
-              {{const.c1.name}} {{const.c2.name}} {{const.type.description}} <a href="/removeconst/{{const.id}}/{{prid}}/" title="delete">delete</a>
-              <br>
+          <div class="container-fluid" style="float: center">  
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>درس ۲</th>
+                <th>درس ۱</th>
+                <th>نوع محدودیت</th>
+                <th></th>
+              </tr>
+            </thead>
 
+            <tbody>
+            {% for const in consts%}
+                <tr>
+              <td>{{const.c1.name}}</td>
+              <td> {{const.c2.name}}</td>
+              <td> {{const.typec.description}} </td>
+              <td> <a href="/removeconst/{{const.id}}/{{prid}}/" title="delete">delete</a> </td>
+              
+              </tr>
             {% endfor %}
+              
+            </tbody>
+          </table>    
+            
           </div>
         </main>
         <!-- add a vertical line here! -->
@@ -105,6 +124,27 @@
           <form action="" method="POST" autocomplete="off" id="factor" class="form-inline form-horizontal" style="margin-left: 5px;">
             {% csrf_token %}
               <!-- list of courses come here! -->
+              <select name="type" multiple>
+                {% for t in ctype %}
+              <option value="{{t.typec}}">{{ t.description }}</option>
+              {% endfor %}
+               
+              </select>
+              <br>
+              <select name="c1" multiple>
+                {% for course in courses %}
+              <option value="{{course.id}}">{{ course.name }}</option>
+              {% endfor %}
+               
+              </select>
+              <br>
+              <select name="c2" multiple>
+                {% for course in courses %}
+              <option value="{{course.id}}">{{ course.name }}</option>
+              {% endfor %}
+              </select>
+              <br>
+
             <input type="submit" value="محدودیت جدید" style="margin-top: 10px;">
               
         </form>
