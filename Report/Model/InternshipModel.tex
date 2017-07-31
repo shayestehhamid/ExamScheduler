@@ -1,0 +1,92 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage[round]{natbib}
+%\usepackage[backend=biber]{biblatex}
+%\addbibresource{bib.bib} % with extension
+
+
+\begin{document}
+
+\author{Hamid Shayestehmanesh}
+\title{Exam Scheduler Application Report}
+\maketitle
+\tableofcontents
+\newpage
+\chapter{Introduction}
+Examinations are important because they compel students to learn. Without them most students would not learn. They would learn only subjects in which they are interested and ignore the other subjects which are thought to be difficult, though they are very important in the modern age. 
+\newline 
+The way examinations are hold are very important. If they are taken very hard or very easy they cannot be trustworthy for examining and ranking students. Institutions should do their best to prepare a proper condition during exams for students so they can do their bests however, they may have limitation in resources and time.
+\chapter{Goal}
+\paragraph{Our goal in this project is to design and implement an application for scheduling exams properly. Many institutions introduces some time slots during a few days or a week to place each exam in them. For exam they will take all the exams in one week and exams can be start on 8 A.M, 11 A.M or 2 P.M. While scheduling this should be considered that a student should attend all of his/her exams and a professor should be able to be present in all of his/her exams thus, an exam should be hold in its instructor absence not two courses with same instructor should be hold in one time. These are the necessary requirement of a schedule.}
+\paragraph{With above information we can conclude that a student may have two exams in one day or even in contingent time slots which feels very unfair. Anyhow this should be considered that universities has different limitation based on their policies. Our goal is improving students conditions while satisfying all limitations of an institution. This soft and hard constrains will be explained completely later.}
+
+\chapter{Overview}
+In this chapter we will review what is the input, output and functionality of the application and then we will review some part of the application is for. 
+\section{Database}
+
+
+\chapter{Optimization Linear Model}
+
+\section{Available Tables}
+\begin{itemize}
+\item
+{\textbf{Conf \big[ C \big]\big[ C \big]  \space =} \begin{tabular}{| c | c |} \hline
+number of common students between class $i, j$ & if $i \neq j$ \\ \hline
+0 & if $i = j$ \\ \hline
+\end{tabular}}
+\end{itemize}
+
+\section{Variables}
+
+\begin{itemize}
+\item
+{\textbf{SD \big[ C \big]\big[ C \big]  \space =}
+\begin{tabular}{| c | c |} \hline
+1 & being in same day for $i \neq j$ \\ \hline
+0 & not being in same day \\ \hline
+\end{tabular}}
+
+\item{
+\textbf{FS \big[ C \big]\big[ C \big]  \space =}
+\begin{tabular}{| c | c |} \hline
+1 & being in contingents days for $i \neq j$ \\ \hline
+0 & not being in contingents day \\ \hline
+\end{tabular}}
+
+\item{
+\textbf{CT \big[ C \big]\big[ T \big]  \space =}
+\begin{tabular}{| c | c |} \hline
+1 & if Course $c_1$ is decided to be in time $t1$  \\ \hline
+0 & if Course $c_1$ is decided not to be in time $t1$ \\ \hline
+\end{tabular}}
+
+
+\end{itemize}
+
+\section{Model}
+\subsection{Objective}
+
+\textbf{ \textit{Min:} } $\Sigma_{c_1}^{C} \Sigma_{c_2}^{C} SD[c_1][c_2] \times BIGM9 \times conf[c_1][c_2] + \Sigma_{c_1}^{C} \Sigma_{c_2}^{C} FD[c_1][c_2] \times BIGM6 \times conf[c_1][c_2]  $  \newline 
+
+\subsection{Constraints}
+
+\begin{itemize}
+\item{$\forall C$ \space $\Sigma_t^T CT_{ct} = 1$}
+
+\item{$\forall c_1 , c_2 , T $ \space if $c_1$, $c_2$ has conflicts $CT_{c_1 t} + CT_{c_2 t} \le 1$ }
+
+\item{$\forall c_1 , c_2 , t_1 , t_2$ \space if $c_1$, $c_2$ has conflicts and $t_1, t_2$ are contingents times $$CT_{c_1 t_1} + CT_{c_2 t_2} \le 1$$ $$CT_{c_2 t_1} + CT_{c_1 t_2} \le 1 $$ }
+
+\item{$\forall c_1 , c_2 , t_1, t_2 $ \space if $c_1$, $c_2$ has conflicts and $t_1 ,t_2 $ are in same day $$CT_{c_1 t_1} + CT_{c_2 t_2} \le 1 + SD[c_1][c_2]$$ 
+$$CT_{c_1 t_2} + CT_{c_2 t_1} \le 1 + SD[c_1][c_2]$$}
+
+
+\item{$\forall c_1 ,  c_2 ,  t_1 , t_2$ \space if $c_1$, $c_2$ has conflicts and $t_1 , t_2$ are contingents days $$CT_{c_1 t_1} + CT_{c_2 t_2} \le 1 + FD[c_1][c_2]$$ $$CT_{c_2 t_1} + CT_{c_1 t_2} \le 1 + FD[c_1][c_2]$$  }
+
+\end{itemize}
+\section{Explanation}
+
+\chapter{Manual}
+Due to the fact that mother tongue of our application users is Farsi, the user manual is written in another document in Farsi.
+
+\end{document}

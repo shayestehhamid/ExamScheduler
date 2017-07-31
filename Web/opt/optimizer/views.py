@@ -181,9 +181,9 @@ def upload_courses(request, prid):
 	# time will be added in solution finding!
 	# computation engine we have
 	# optimization engine!
-def course_remove(request, crid):
+def course_remove(request, crid, prid):
 	Course.objects.get(id=crid).delete()
-	return HttpResponseRedirect('/projects')
+	return HttpResponseRedirect('/project/course/'+str(prid)+'/')
 def constraint(request, prid):
 	if request.method == "POST":
 		lform = request.POST

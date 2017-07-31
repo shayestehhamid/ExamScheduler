@@ -122,7 +122,7 @@ tr td:first-child:before
               <td> <a href="/project/students/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}} </a> </td>
               <td> {{ course.teacher.name }} </td>
               <td> {{course.time}} </td>
-              <td><a href="/removecourse/{{course.id}}/" title="delete">delete</a> </td>
+              <td><a href="/removecourse/{{course.id}}/{{prid}}/" title="delete">delete</a> </td>
             </tr>
         
             {% endfor %}
