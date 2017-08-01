@@ -139,7 +139,7 @@ tr td:first-child:before
           biam doone doone beferstam ke factor sabr beshe -->
           
           <div class="form-group">
-          <form action="" method="POST" autocomplete="off" id="factor" class="form-inline form-horizontal" style="margin-left: 5px;">
+          <form action="" method="POST" autocomplete="off" id="factor" class="form-inline form-horizontal" style="margin-left: 5px;" >
             {% csrf_token %}
               <!-- list of courses come here! -->
               <select name="type" multiple>
@@ -155,14 +155,13 @@ tr td:first-child:before
               {% endfor %}
                
               </select>
-              <br>
+              <hr>
               <select name="c2" multiple>
                 {% for course in courses %}
               <option value="{{course.id}}">{{ course.name }}</option>
               {% endfor %}
               </select>
-              <br>
-
+              
             <input type="submit" value="محدودیت جدید" style="margin-top: 10px;">
               
         </form>
