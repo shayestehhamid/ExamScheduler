@@ -3,47 +3,47 @@
 <!DOCTYPE html>
 <html class="gr__v4-alpha_getbootstrap_com" lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
-    <script src="{% static 'tether.js' %}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<title>Dashboard Template for Bootstrap</title>
+<script src="{% static 'tether.js' %}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
- <style type="text/css">
+<style type="text/css">
 
-body
-{
+  body
+  {
     counter-reset: Serial;           /* Set the Serial counter to 0 */
-}
+  }
 
-table
-{
+  .ftable
+  {
     border-collapse: separate;
-}
+  }
 
-tr td:first-child:before
-{
-  counter-increment: Serial;      /* Increment the Serial counter */
-  content:  counter(Serial) "."; /* Display the counter */
-}
+  .ftr .ftd:first-child:before
+  {
+    counter-increment: Serial;      /* Increment the Serial counter */
+    content:  counter(Serial) "."; /* Display the counter */
+  }
 
 </style>
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'dashboard.css' %}" rel="stylesheet">
-    <link href="{% static 'list.css' %}" rel="stylesheet">
-  </head>
+<!-- Custom styles for this template -->
+<link href="{% static 'dashboard.css' %}" rel="stylesheet">
+<link href="{% static 'list.css' %}" rel="stylesheet">
+</head>
 
-  <body data-gr-c-s-loaded="true">
-    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+<body data-gr-c-s-loaded="true">
+  <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <!-- <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button> -->
@@ -69,7 +69,7 @@ tr td:first-child:before
 
     <div class="container-fluid" style="margin-top: 80px">
       <div class="row">
-      
+
         <nav class="col-md-2 hidden-xs-down bg-faded sidebar">
           <ul class="nav nav-pills flex-column">
             <li class="nav-item">
@@ -81,76 +81,73 @@ tr td:first-child:before
             
           </ul>
           <hr>
-<!--           <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="#">راننده ی جدید</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">بارنامه ی جدید</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">حساب جدید</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">شخص جدید</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">فاکتور جدید</a>
-            </li>
-            
-          </ul> -->
- 
+
         </nav>
-       
+
         <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
         <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
           <h2>لیست درس ها</h2>
           <div class="container-fluid" style="float: center">      
-            
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>نام درس</th>
-                <th>نام استاد</th>
-                <th>زمان </th>
-                <th>حذف</th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for course in courses%}
-            <tr>
-              <td> <a href="/project/students/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}} </a> </td>
-              <td> {{ course.teacher.name }} </td>
-              <td> {{course.time}} </td>
-              <td><a href="/removecourse/{{course.id}}/{{prid}}/" title="delete">delete</a> </td>
-            </tr>
-        
-            {% endfor %}
-    
-              
-            </tbody>
-          </table>
-            
-          </ol>
-          </div>
-        </main>
-        <!-- add a vertical line here! -->
-        {% for key in conflicts%}
-          {{key}} <h2>  </h2> {{conflicts.key}} <br>
-        {% endfor %}
-    </div>
-    <div class="col-md-4 col-sm-4">
-     {% for x in conflicts %}
-            {{x}}
-        {% endfor %}
+
+            <table class="table table-bordered ftable">
+              <thead>
+                <tr>
+                  <th>نام درس</th>
+                  <th>نام استاد</th>
+                  <th>زمان </th>
+                  <th>حذف</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for course in courses%}
+                <tr class='ftr'>
+                  <td class='ftd'> <a href="/project/students/{{course.id}}/{{prid}}/" title="course{{course.id}}">{{course.name}} </a> </td>
+                  <td  class='ftd'> {{ course.teacher.name }} </td>
+                  <td  class='ftd'> {{course.time}} </td>
+                  <td  class='ftd'> <a href="/removecourse/{{course.id}}/{{prid}}/" title="delete">delete</a> </td>
+                </tr>
+
+                {% endfor %}
+
+
+              </tbody>
+            </table>
+      
         </div>
+      </main>
+      <!-- add a vertical line here! -->
+  <div class="col-md-4 col-sm-4" dir='rtl'>
+     <table class="table table-bordered">
+        <caption>تداخل ها</caption>
+        <thead>
+          <tr>
+            <th>هم زمان</th>
+            <th>ساعت های متوالی</th>
+            <th>در یک روز</th>
+            <th>روز متوالی</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{same_time}}</td>
+            <td>{{continues_time}}</td>
+            <td>{{in_day}}</td>
+            <td>{{continues_day}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+   </div> 
+     
+    </div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{% static 'jquery-3.js' %}" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-     <script src="{% static 'bootstrap.js' %}"></script>
+    <script src="{% static 'bootstrap.js' %}"></script>
     <script>window.jQuery || document.write('<script src="{% static "jquery.min.js" %}"><\/script>')</script>
-   <script src="{% static 'list.js' %}"></script>
-  
+    <script src="{% static 'list.js' %}"></script>
 
-</body></html>
+
+  </body></html>

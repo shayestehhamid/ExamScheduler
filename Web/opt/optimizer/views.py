@@ -131,25 +131,31 @@ def comp_eng(courses):
 	cont_time = 0
 	in_day_time = 0
 	cont_day = 0
+	same_time = 0
 	for c1 in courses:
 		for c2 in courses:
 			if c1.id < c2.id:
 				if not c1.time or not c2.time:
-					return {}
-				if Data.continues_time_time(c1.time, c2.time):
+					continue
+				if c1.time == c2.time:
+					same_time += Data.students_conflict(c1.id, c2.id)
+				elif Data.continues_time_time(c1.time, c2.time):
 					cont_time += Data.students_conflict(c1.id, c2.id)
 				elif Data.in_day_time(c1.time, c2.time):
 					in_day_time += Data.students_conflict(c1.id, c2.id)
 				elif Data.continues_day_time(c1.time, c2.time):
 					cont_day += Data.students_conflict(c1.id, c2.id)
-	return [('continues_time', cont_time), ('in_day',in_day_time), ('continues_day',cont_day)]
+	return [('continues_time', cont_time), ('in_day',in_day_time), ('continues_day',cont_day), ('same_time', same_time)]
 
 def courses(request, prid):
 	pr = Project.objects.get(id=prid)
 	courses = Course.objects.filter(project=pr)
 	conflicts = comp_eng(courses)
 	print conflicts
-	return render(request, 'courses.html', {'courses':courses, 'prid':prid, 'conflicts':conflicts})
+	data = {'courses':courses, 'prid':prid}
+	for key, val in conflicts:
+		data[key] = val
+	return render(request, 'courses.html', data)
 
 def upload_courses(request, prid):
 	book = xlrd.open_workbook('Book1.xlsx')
