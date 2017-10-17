@@ -2,12 +2,12 @@ from pulp import *
 import data as Data
 import matplotlib.pyplot as plt
 import threading
-
+from models import Message, Project
 removed_course = -1
 
 
 import time
-
+import datetime
 
 
 ########################
@@ -25,6 +25,11 @@ class Optimize(threading.Thread):
 			for key in dict:
 				if val == dict[key]:
 					return key
+		msg = Message()
+		msg.project = Project.objects.get(id=projectid)
+		now_time = str(datetime.datetime.now())
+		msg.text = "New solver starts on" + now_time
+		msg.save()
 		print "optimizing", projectid		
 		problem = LpProblem('Project', LpMinimize)
 		courses = Data.courses(projectid)
@@ -220,6 +225,13 @@ class Optimize(threading.Thread):
 		# print problem.objective
 		problem.writeLP("problem.lp")
 		status = problem.solve()	
+		tx = "problem on" 
+		tx += now_time + " ended. \n result is "
+		tx +=  LpStatus[status] 
+		msg = Message()
+		msg.project = Project.objects.get(id=projectid)
+		msg.text = tx
+		msg.save()
 		print LpStatus[status]
 		print "problem solved!"
 		for course in xrange(Data.courses_num(projectid)):

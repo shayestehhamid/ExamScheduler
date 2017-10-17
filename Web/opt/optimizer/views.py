@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django_tables2 import RequestConfig
 from forms import NewProject, NewTime
 from django.http import HttpResponse, HttpResponseRedirect
-from models import Project, Teacher, Time, Constraint, Student, Course, ConstraintType
+from models import Project, Teacher, Time, Constraint, Student, Course, ConstraintType, Message
 import xlrd
 import data as Data
 import threading
@@ -151,8 +151,9 @@ def courses(request, prid):
 	pr = Project.objects.get(id=prid)
 	courses = Course.objects.filter(project=pr)
 	conflicts = comp_eng(courses)
+	msgs = Message.objects.filter(project=pr)
 	print conflicts
-	data = {'courses':courses, 'prid':prid}
+	data = {'courses':courses, 'prid':prid, 'msgs':msgs}
 	for key, val in conflicts:
 		data[key] = val
 	return render(request, 'courses.html', data)

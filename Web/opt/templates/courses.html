@@ -137,6 +137,13 @@
         </tbody>
       </table>
 
+      {% for msg in msgs %}
+      <div dir="ltr" style="border: 2px solid black;">
+        {{ msg.text }}
+        <br>
+        </div>
+      {% endfor %}
+    
    </div> 
      
     </div>

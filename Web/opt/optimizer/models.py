@@ -55,3 +55,8 @@ class Time(models.Model):
             global months
             return months[self.m]
 	month = property(calcmonth)
+
+class Message(models.Model):
+	project = models.ForeignKey(Project)
+	text = models.CharField(max_length=1000)
+	
