@@ -99,13 +99,17 @@ def list_course_not_in_day_db(projectid):
 def continues_day_time(time1, time2):
 	# time1 = Time.objects.get(id=t1)
 	# time2 = Time.objects.get(id=t2)
+	# print time1, time2
 	if time1.m == time2.m:
 		if abs(time1.d - time2.d) == 1:
 			return True
 	# not in same month
 	if abs(time1.m - time2.m) == 1:
 		# 1 bozorgtare, 2 kochiktare!
-		time1, time2 = time1, time2 if time1.m - time2.m == 1 else time2, time1
+		if (time1.m - time2.m) == 1:
+			time1, time2 = time1, time2 
+		else:
+			time1, time2 = time2, time1
 		if time1.d == 1 and time2.d == msizes[time2.m]:
 			return True
 	return False
