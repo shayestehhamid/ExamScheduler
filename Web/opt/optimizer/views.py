@@ -158,8 +158,8 @@ def courses(request, prid):
 		data[key] = val
 	return render(request, 'courses.html', data)
 
-def upload_courses(request, prid):
-	book = xlrd.open_workbook('Book1.xlsx')
+def upload_courses(prid, filename):
+	book = xlrd.open_workbook(filename)
 	coursesNum = book.nsheets
 	coursesNames = book.sheet_names()
 	
@@ -222,3 +222,49 @@ def inter(request, c1, c2):
 	ct2.description = "در دو روز متوالی بودن"
 	ct.save()
 	ct2.save()
+
+
+def dl_excel(request, prid):
+	proj = Project.objects.get(id=int(prid))
+	courses = Course.objects.filter(project=proj)
+	import xlsxwriter
+	from django.utils.encoding import smart_str
+	workbook = xlsxwriter.Workbook('book.xlsx')
+	worksheet = workbook.add_worksheet()
+	row = 0
+	
+	for course in courses:
+		worksheet.write(row, 0, course.name)
+		worksheet.write(row, 1, course.teacher.name)
+		worksheet.write(row, 2, course.time.d)
+		worksheet.write(row, 3, course.time.m)
+		worksheet.write(row, 4, course.time.h)
+		row+=1
+	workbook.close()
+	# import xlrd
+	# workbook = xlrd.open_workbook('book.xlsx')
+	# print workbook.sheet_names()
+	# from django.core.servers.basehttp import FileWrapper
+	from wsgiref.util import FileWrapper
+	import os, tempfile, zipfile
+	filename = 'book.xlsx' # Select your file here.                                
+	wrapper = FileWrapper(file(filename))
+	response = HttpResponse(wrapper, content_type='text/plain')
+	response['Content-Length'] = os.path.getsize(filename)
+	return response
+
+
+def upload_excel(request, prid):
+	from django.core.files.storage import FileSystemStorage
+	import datetime
+	if request.method == "POST":
+		
+		myfile = request.FILES['excel']
+		fs = FileSystemStorage()
+		filename = 'excel' + str(datetime.datetime.now()) + ".xlsx"
+        filename = fs.save(filename, myfile)
+        uploaded_file_url = fs.url(filename)
+        return upload_courses(prid, filename)
+
+
+		

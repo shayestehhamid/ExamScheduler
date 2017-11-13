@@ -36,4 +36,6 @@ urlpatterns = [
     url(r'^course/setteacher/([\w{}]{1,40})/([\w{}]{1,40})', views.set_teacher),
     url(r'^inter/([\w{}]{1,40})/([\w{}]{1,40})/', views.inter),
     url(r'^removeconst/([\w{}]{1,40})/([\w{}]{1,40})', views.const_remove),
+    url(r'^dl/([\w{}]{1,40})', views.dl_excel),
+    url(r'^upload/([\w{}]{1,40})', views.upload_excel),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

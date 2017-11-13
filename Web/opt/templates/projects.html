@@ -3,47 +3,74 @@
 <!DOCTYPE html>
 <html class="gr__v4-alpha_getbootstrap_com" lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
-    <script src="{% static 'tether.js' %}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<title>Dashboard Template for Bootstrap</title>
+<script src="{% static 'tether.js' %}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
- <style type="text/css">
+<style type="text/css">
+  @import url("http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css");
+/* 
+    FORM STYLING
+    */
+    #fileselector {
+      margin: 10px; 
+    }
+    #upload-file-selector {
+      display:none;   
+    }
+    .margin-correction {
+      margin-right: 10px;   
+    }
 
-body
-{
-    counter-reset: Serial;           /* Set the Serial counter to 0 */
-}
+    .btn-bs-file{
+      position:relative;
+    }
+    .btn-bs-file input[type="file"]{
+      position: absolute;
+      top: -9999999;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      width:0;
+      height:0;
+      outline: none;
+      cursor: inherit;
+    }
 
-table
-{
-    border-collapse: separate;
-}
+    body
+    {
+      counter-reset: Serial;           /* Set the Serial counter to 0 */
+    }
 
-tr td:first-child:before
-{
-  counter-increment: Serial;      /* Increment the Serial counter */
-  content: counter(Serial) ". "; /* Display the counter */
-}
+    table
+    {
+      border-collapse: separate;
+    }
 
-</style>
+    tr td:first-child:before
+    {
+      counter-increment: Serial;      /* Increment the Serial counter */
+      content: counter(Serial) ". "; /* Display the counter */
+    }
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'dashboard.css' %}" rel="stylesheet">
-    <link href="{% static 'list.css' %}" rel="stylesheet">
-  </head>
+  </style>
 
-  <body data-gr-c-s-loaded="true">
-    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+  <!-- Custom styles for this template -->
+  <link href="{% static 'dashboard.css' %}" rel="stylesheet">
+  <link href="{% static 'list.css' %}" rel="stylesheet">
+</head>
+
+<body data-gr-c-s-loaded="true">
+  <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <!-- <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button> -->
@@ -69,7 +96,7 @@ tr td:first-child:before
 
     <div class="container-fluid" style="margin-top: 80px">
       <div class="row">
-      
+
         <nav class="col-md-2 hidden-xs-down bg-faded sidebar">
           <ul class="nav nav-pills flex-column">
             <li class="nav-item">
@@ -99,73 +126,87 @@ tr td:first-child:before
             </li>
             
           </ul> -->
- 
+
         </nav>
         
         <!-- col-sm-9 offset-sm-3 col-md-10 offset-md-2 -->
-        <main class="col-sm-5 offset-sm-3 col-md-6 offset-md-2">
+        <main class=" offset-sm-3 offset-md-2">
           <h2>لیست پروژه ها</h2>
           <div class="container-fluid" style="float: center">  
-          <table class="table table-bordered">
-            
-            <thead>
-              <tr>
-                <th>نام پروژه </th>
-                <th>بهینه سازی </th>
-                <th>زمان ها</th>
-                <th>دروس</th>
-                <th>بارگذاری دروس</th>
-                <th>محدودیت ها</th>
-                <th>حذف</th>
+            <table class="table table-bordered">
+
+              <thead>
+                <tr>
+                  <th>نام پروژه </th>
+                  <th>بهینه سازی </th>
+                  <th>زمان ها</th>
+                  <th>دروس</th>
+                  <th>بارگذاری دروس</th>
+                  <th>محدودیت ها</th>
+                  <th>حذف</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for x in projects%}
+                <tr>
+                  <td> <a href="/result/{{x.id}}">بهینه سازی </a> </td>
+                  <td> {{x.name}} </td>
+                  <td> <a href="/project/time/{{x.id}}">زمان ها</a> </td>
+                  <td> <a href="/project/course/{{x.id}}">درس ها</a> </td>
+                  <!-- <td> <a href="/project/upload/{{x.id}}">بارگزاری</a> </td> -->
+                  <td > <form enctype="multipart/form-data" method="POST" action=/upload/{{x.id}} >
+                    {%  csrf_token %}
+                    <span id="fileselector">
+                      <label class="btn btn-default" for="upload-file-selector">
+                        <input id="upload-file-selector" name="excel" type="file">
+                        <i class="fa_icon icon-upload-alt margin-correction"></i>upload file
+                      </label>
+                    </span>
+                    <span > <input type="submit" class="glyphicon glyphicon-ok-sign" style="height: 30px; width: 50px;" value="" name=""> </span>
+
+
+                  </form> </td>
+                  <td> <a href="/project/const/{{x.id}}">محدودیت ها</a> </td>
+                  <td> <a href="/removeproject/{{x.id}}">حذف</a> </td>
+                </tr>
+                {% endfor %}    
                 
-              </tr>
-            </thead>
-            <tbody>
-              {% for x in projects%}
-              <tr>
-            <td> <a href="/result/{{x.id}}">بهینه سازی </a> </td>
-            <td> {{x.name}} </td>
-            <td> <a href="/project/time/{{x.id}}">زمان ها</a> </td>
-            <td> <a href="/project/course/{{x.id}}">درس ها</a> </td>
-            <td> <a href="/project/upload/{{x.id}}">بارگزاری</a> </td>
-            <td> <a href="/project/const/{{x.id}}">محدودیت ها</a> </td>
-            <td> <a href="/removeproject/{{x.id}}">حذف</a> </td>
-             </tr>
-            {% endfor %}    
-                
-              
-            </tbody>
-          </table>    
-          
+
+                <!-- <form enctype="multipart/form-data"> <input type="hidden" name="{{x.id}}"> <input type="file" name="file" class="btn-bs-file btn btn-lg btn-primary"> <input style="margin-left: 10px; width: 50px; height: 30px;" type="submit" name="بارگزاری" value="upload"></form> -->
+
+              </tbody>
+            </table>    
           </div>
-        </main>
-        <!-- add a vertical line here! -->
-        <div class="col-md-4 col-sm-4">
-        <h3>ساخت پروژه ی جدید</h3>
-          
+
+          <!-- add a vertical line here! -->
+          <div class="">
+            <h3>ساخت پروژه ی جدید</h3>
+
           <!-- ye form bezaram ke ba plus behesh ezafe beshe baad dg hala 
           biam doone doone beferstam ke factor sabr beshe -->
           
           <div class="form-group">
-          <form action="/projects/" method="POST" autocomplete="off" id="factor">
-            {% csrf_token %}
+            <form action="/projects/" method="POST" autocomplete="off" id="factor">
+              {% csrf_token %}
 
-            {{newproject}}
-            
-            <input type="submit" value="ساخت پروژه" />
-        </form>
-                  
+              {{newproject}}
+
+              <input type="submit" value="ساخت پروژه" />
+            </form>
+
+          </div>
         </div>
-      </div>
+      </main>
     </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{% static 'jquery-3.js' %}" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-     <script src="{% static 'bootstrap.js' %}"></script>
+    <script src="{% static 'bootstrap.js' %}"></script>
     <script>window.jQuery || document.write('<script src="{% static "jquery.min.js" %}"><\/script>')</script>
-   <script src="{% static 'list.js' %}"></script>
-  
+    <script src="{% static 'list.js' %}"></script>
 
-</body></html>
+
+  </body></html>
